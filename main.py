@@ -7,6 +7,7 @@ from pathlib import Path
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from threading import Thread
 from datetime import datetime
+import os
 
 
 
@@ -16,7 +17,7 @@ HTTP_PORT = 3000
 HTTP_HOST = '0.0.0.0'
 SOCKET_HOST = '127.0.0.1'
 SOCKET_PORT = 5000
-
+DIRECTORY = "storage"
 
 class BasicServer(BaseHTTPRequestHandler):
 
@@ -110,6 +111,13 @@ def run_http_server(host, port):
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG, format='%(threadName)s %(message)s')
+
+    if not os.path.exists(DIRECTORY):
+        os.makedirs(DIRECTORY)
+        logging.info(f"directory '{DIRECTORY}'created")
+
+                
+
 
     server = Thread(target=run_http_server, args=(HTTP_HOST, HTTP_PORT))
     server.start()
